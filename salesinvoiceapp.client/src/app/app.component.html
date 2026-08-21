@@ -1,0 +1,260 @@
+<!-- Simple Minimal Header -->
+<header class="app-header">
+  <div class="header-container">
+    <div class="brand">
+      <div class="brand-icon">🧾</div>
+      <div class="brand-text">
+        <span class="brand-title">InvoiceDesk</span>
+        <span class="brand-subtitle">Sales & Billing</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span class="date-badge">📅 {{ invoiceDate || 'Today' }}</span>
+    </div>
+  </div>
+</header>
+
+<div class="app-wrapper">
+  <div class="panel invoice-panel">
+    <div class="panel-header">
+      <h2>Sales Invoice</h2>
+     
+    </div>
+
+
+    <div class="alert alert-error" *ngIf="validationErrors.length > 0">
+      <span class="alert-icon">⚠️</span>
+      <ul>
+        <li *ngFor="let err of validationErrors">{{ err }}</li>
+      </ul>
+    </div>
+    <div class="alert alert-success" *ngIf="successMessage">
+      <span class="alert-icon">✅</span> {{ successMessage }}
+    </div>
+    <div class="alert alert-error" *ngIf="errorMessage">
+      <span class="alert-icon">❌</span> {{ errorMessage }}
+    </div>
+
+    
+    <div class="form-section">
+      <div class="section-title">
+        <span class="step-num">1</span>
+        Customer Details
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="customerNo">Customer No</label>
+          <input id="customerNo" type="text" [(ngModel)]="customerNo" placeholder="Enter customer number" />
+        </div>
+        <div class="form-group">
+          <label for="customerName">Customer Name</label>
+          <input id="customerName" type="text" [(ngModel)]="customerName" placeholder="Dheeraj Panwar" />
+        </div>
+        <div class="form-group">
+          <label for="invoiceDate">Invoice Date</label>
+          <input id="invoiceDate" type="date" [(ngModel)]="invoiceDate" />
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="form-section item-section">
+      <div class="section-title">
+        <span class="step-num">2</span>
+        {{ editIndex >= 0 ? 'Edit Item' : 'Add Item' }}
+      </div>
+      <div class="item-form-grid">
+        <div class="form-group">
+          <label for="itemNo">Item No</label>
+          <input id="itemNo" type="text" [(ngModel)]="itemNo" placeholder="Item number" />
+        </div>
+        <div class="form-group flex-grow">
+          <label for="itemName">Item Name</label>
+          <input id="itemName" type="text" [(ngModel)]="itemName" placeholder="Item description" />
+        </div>
+        <div class="form-group short-input">
+          <label for="qty">Qty</label>
+          <input id="qty" type="number" [(ngModel)]="qty" placeholder="0" min="1" />
+        </div>
+        <div class="form-group">
+          <label for="mrp">MRP (₹)</label>
+          <input id="mrp" type="number" [(ngModel)]="mrp" placeholder="0.00" min="0.01" step="0.01" />
+        </div>
+        <div class="form-group">
+          <label>Amount (₹)</label>
+          <input type="text" [value]="calculatedAmount | number:'1.2-2'" readonly class="readonly-field" />
+        </div>
+      </div>
+
+      <div class="item-actions">
+        <button class="btn btn-primary" (click)="addItem()" id="addItemBtn">
+          {{ editIndex >= 0 ? '✓ Update Item' : '+ Add Item' }}
+        </button>
+        <button class="btn btn-secondary" *ngIf="editIndex >= 0" (click)="cancelEdit()" id="cancelEditBtn">
+          Cancel
+        </button>
+      </div>
+    </div>
+
+    <!-- Invoice Items List -->
+    <div class="form-section" *ngIf="invoiceItems.length > 0">
+      <div class="section-title">
+        <span class="step-num">3</span>
+        Invoice Items List ({{ invoiceItems.length }})
+      </div>
+      <div class="table-container">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th style="width: 40px;">#</th>
+              <th>Item No</th>
+              <th>Item Name</th>
+              <th class="text-center">Qty</th>
+              <th class="text-right">MRP (₹)</th>
+              <th class="text-right">Amount (₹)</th>
+              <th class="text-center" style="width: 90px;">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of invoiceItems; let i = index" [class.editing-row]="editIndex === i">
+              <td>{{ i + 1 }}</td>
+              <td><span class="code-badge">{{ item.itemNo }}</span></td>
+              <td class="font-medium">{{ item.itemName }}</td>
+              <td class="text-center">{{ item.qty }}</td>
+              <td class="text-right">{{ item.mrp | number:'1.2-2' }}</td>
+              <td class="amount-cell text-right">₹ {{ item.amount | number:'1.2-2' }}</td>
+              <td class="action-cell">
+                <button class="btn-icon btn-edit" (click)="editItem(i)" title="Edit item">✏️</button>
+                <button class="btn-icon btn-delete" (click)="deleteItem(i)" title="Delete item">🗑️</button>
+              </td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="total-row">
+              <td colspan="5" class="total-label">Total Invoice Amount:</td>
+              <td class="total-amount text-right">₹ {{ invoiceTotal | number:'1.2-2' }}</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+
+    <!-- Form Action Buttons -->
+    <div class="save-section">
+      <button class="btn btn-save" (click)="saveInvoice()" id="saveInvoiceBtn">
+        💾 Save Invoice
+      </button>
+      <button class="btn btn-secondary" (click)="resetForm()">
+        Reset
+      </button>
+    </div>
+  </div>
+
+  
+  <div class="panel report-panel">
+    <div class="panel-header">
+      <h2>Sales History Report</h2>
+      <span class="badge badge-secondary">{{ salesReport.length }} Saved</span>
+    </div>
+
+    <p class="report-hint" *ngIf="salesReport.length === 0">
+      <i>No sales saved yet. Save an invoice to display sales report here.</i>
+    </p>
+
+    <div class="table-container" *ngIf="salesReport.length > 0">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Customer</th>
+            <th>Item</th>
+            <th class="text-right">Amount (₹)</th>
+            <th class="text-center" style="width: 60px;">Print</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of salesReport">
+            <td class="text-muted">{{ row.invoiceDate }}</td>
+            <td class="font-medium">{{ row.customerName }}</td>
+            <td>{{ row.itemName }}</td>
+            <td class="amount-cell text-right">₹ {{ row.amount | number:'1.2-2' }}</td>
+            <td class="text-center">
+              <button class="btn-icon" (click)="printSingleReportItem(row)" title="Print invoice slip">🖨️</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- PRINT MODAL (Triggered via Sales History Report) -->
+<div class="modal-backdrop" *ngIf="showPrintModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3>Invoice Bill Print</h3>
+      <button class="close-btn" (click)="closePrintPreview()">✕</button>
+    </div>
+    
+    <div class="modal-body">
+      <!-- Standard Invoice Slip -->
+      <div id="printable-area" class="printable-invoice">
+        <div class="invoice-slip-header">
+          <div class="company-details">
+            <h2>SALES INVOICE</h2>
+            <p>Invoice / Cash Memo</p>
+          </div>
+          <div class="invoice-meta">
+            <p><strong>Date:</strong> {{ printData?.invoiceDate }}</p>
+            <p><strong>Customer No:</strong> {{ printData?.customerNo }}</p>
+          </div>
+        </div>
+
+        <div class="customer-info-box">
+          <p><strong>Bill To:</strong> {{ printData?.customerName }}</p>
+        </div>
+
+        <table class="invoice-slip-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Item No</th>
+              <th>Description</th>
+              <th class="text-center">Qty</th>
+              <th class="text-right">MRP (₹)</th>
+              <th class="text-right">Amount (₹)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of printData?.items; let idx = index">
+              <td>{{ idx + 1 }}</td>
+              <td>{{ item.itemNo }}</td>
+              <td>{{ item.itemName }}</td>
+              <td class="text-center">{{ item.qty }}</td>
+              <td class="text-right">₹ {{ item.mrp | number:'1.2-2' }}</td>
+              <td class="text-right">₹ {{ item.amount | number:'1.2-2' }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="invoice-slip-total">
+          <div class="total-row-summary">
+            <span>Grand Total:</span>
+            <span class="grand-amount">₹ {{ printData?.totalAmount | number:'1.2-2' }}</span>
+          </div>
+        </div>
+
+        <div class="invoice-slip-footer">
+          <p>Thank you for your business!</p>
+          <div class="signature-line">Authorized Signatory</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-footer">
+      <button class="btn btn-print" (click)="triggerPrint()">🖨️ Print Now</button>
+      <button class="btn btn-secondary" (click)="closePrintPreview()">Close</button>
+    </div>
+  </div>
+</div>

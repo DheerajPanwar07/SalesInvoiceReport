@@ -1,0 +1,406 @@
+/* Global styles & Design System */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #f8fafc;
+  color: #1e293b;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* App Header */
+.app-header {
+  background: #0f172a;
+  color: #ffffff;
+  padding: 14px 24px;
+  box-shadow: 0 2px 10px rgba(15, 23, 42, 0.15);
+}
+
+.header-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  font-size: 1.6rem;
+  background: #1e293b;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #334155;
+}
+
+.brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: #f8fafc;
+}
+
+.brand-subtitle {
+  font-size: 0.75rem;
+  color: #94a3b8;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.date-badge {
+  font-size: 0.8rem;
+  background: #1e293b;
+  color: #cbd5e1;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #334155;
+  font-weight: 500;
+}
+
+/* Buttons */
+.btn {
+  height: 38px;
+  padding: 0 18px;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease-in-out;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: #0d9488;
+  color: #ffffff;
+}
+
+.btn-primary:hover {
+  background: #0f766e;
+  box-shadow: 0 2px 6px rgba(13, 148, 136, 0.25);
+}
+
+.btn-secondary {
+  background: #f1f5f9;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+}
+
+.btn-secondary:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.btn-save {
+  background: #10b981;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.btn-save:hover {
+  background: #059669;
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.btn-print {
+  background: #3b82f6;
+  color: #ffffff;
+}
+
+.btn-print:hover {
+  background: #2563eb;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.btn-outline-light {
+  background: transparent;
+  border: 1px solid #475569;
+  color: #f8fafc;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-outline-light:hover {
+  background: #1e293b;
+  border-color: #94a3b8;
+}
+
+.btn-icon {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.95rem;
+  padding: 5px 8px;
+  border-radius: 6px;
+  transition: background 0.15s;
+}
+
+.btn-edit:hover {
+  background: #e0f2fe;
+}
+
+.btn-delete:hover {
+  background: #fee2e2;
+}
+
+/* Modal Popup & Print Styles */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal-box {
+  background: #ffffff;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 680px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.modal-header {
+  padding: 16px 20px;
+  background: #0f172a;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.close-btn:hover {
+  color: #ffffff;
+}
+
+.modal-body {
+  padding: 24px;
+  overflow-y: auto;
+  background: #f8fafc;
+}
+
+.modal-footer {
+  padding: 14px 20px;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.printable-invoice {
+  background: #ffffff;
+  padding: 28px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  color: #0f172a;
+  font-size: 0.88rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.invoice-slip-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 2px solid #0f172a;
+  padding-bottom: 14px;
+  margin-bottom: 18px;
+}
+
+.company-details h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: 0.5px;
+}
+
+.company-details p {
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+.invoice-meta p {
+  margin: 2px 0;
+  font-size: 0.84rem;
+  color: #334155;
+}
+
+.customer-info-box {
+  background: #f8fafc;
+  padding: 12px 16px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 18px;
+}
+
+.invoice-slip-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 18px;
+}
+
+.invoice-slip-table th {
+  background: #f1f5f9;
+  color: #0f172a;
+  font-weight: 700;
+  padding: 8px 10px;
+  border-bottom: 1px solid #cbd5e1;
+  font-size: 0.82rem;
+  text-align: left;
+}
+
+.invoice-slip-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 0.84rem;
+}
+
+.invoice-slip-total {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 24px;
+}
+
+.total-row-summary {
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  padding: 10px 18px;
+  border-radius: 6px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.grand-amount {
+  color: #0d9488;
+  font-size: 1.15rem;
+}
+
+.invoice-slip-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 30px;
+  padding-top: 14px;
+  border-top: 1px dashed #cbd5e1;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+.signature-line {
+  border-top: 1px solid #94a3b8;
+  padding-top: 4px;
+  width: 160px;
+  text-align: center;
+  font-weight: 600;
+  color: #334155;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+
+  .app-header, .panel, .modal-header, .modal-footer, .close-btn {
+    display: none !important;
+  }
+
+  .modal-backdrop {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: auto;
+    background: transparent;
+    backdrop-filter: none;
+  }
+
+  .modal-box {
+    box-shadow: none;
+    border: none;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .modal-body {
+    padding: 0;
+    background: transparent;
+  }
+
+  #printable-area, #printable-area * {
+    visibility: visible;
+  }
+
+  #printable-area {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 20px;
+    border: none;
+    box-shadow: none;
+  }
+}
+
