@@ -19,6 +19,6 @@ namespace SalesInvoiceApp.Server.Models
         [Required]
         public DateTime InvoiceDate { get; set; }
 
-        public ICollection<InvoiceItem> Items { get; set; } = new List<InvoiceItem>();
+        public List<InvoiceItem> Items { get; set; } = new List<InvoiceItem>();
     }
 }

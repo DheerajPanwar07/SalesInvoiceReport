@@ -1,6 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace SalesInvoiceApp.Server.Models
 {
@@ -9,10 +7,6 @@ namespace SalesInvoiceApp.Server.Models
         public int Id { get; set; }
 
         public int InvoiceHeaderId { get; set; }
-
-        [JsonIgnore]
-        [ForeignKey(nameof(InvoiceHeaderId))]
-        public InvoiceHeader? InvoiceHeader { get; set; }
 
         [Required]
         [MaxLength(50)]
